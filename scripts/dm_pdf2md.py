@@ -52,7 +52,7 @@ def escape_md(line):
     s = line
     if re.match(r"^\s*[#>*+\-=|`~]", s):
         s = "\\" + s.lstrip()
-    s = re.sub(r"^(\d+)([.)])(\s)", r"\1\\\2\3", s)
+    s = re.sub(r"^(\d+)([.)])(\s|$)", r"\1\\\2\3", s)
     s = s.replace("<", "&lt;") if re.search(r"<[A-Za-z/!]", s) else s
     return s
 
@@ -95,7 +95,7 @@ def convert(pages, drop_lines=()):
                 continue
             st = re.sub(r"\s+", " ", st) if not raw.startswith("   ") else st
             low = st.lower()
-            if re.match(r"^arrangement of (sections|regulations|rules|articles|paragraphs|provisions)", low):
+            if re.match(r"^arrangement of (sections|clauses|regulations|rules|articles|paragraphs|provisions|orders)", low):
                 in_arrangement = True
                 arr_last = 0
                 out += ["", "## " + st, ""]
