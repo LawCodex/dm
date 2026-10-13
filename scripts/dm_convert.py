@@ -39,6 +39,8 @@ def main():
         kind = classify(it["url"], it["title"])
         if kind not in ("chapter", "act"):
             continue
+        if kind == "act" and not re.search(r"\bAct\b|\bActs\b", it["title"], re.I):
+            continue  # regulations / orders that carry an "N of YYYY" number
         title_full = re.sub(r"\s+", " ", it["title"]).strip()
         pdf = os.path.join(RAW, "pdf", fname(it["url"]))
         if not os.path.exists(pdf):
